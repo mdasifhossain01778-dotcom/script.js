@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <check your account balance </title>
+    <title>Camera Access Example</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 40px;
-            padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -19,46 +18,59 @@
             padding: 20px;
             border: 1px solid #ccc;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             text-align: center;
+        }
+        video {
+            width: 100%;
+            max-width: 360px;
+            background-color: #666;
+            margin-top: 10px;
+            border-radius: 4px;
         }
         .button {
             display: inline-block;
             margin-top: 15px;
             padding: 10px 20px;
-            background-color: #25D366; /* WhatsApp Green */
+            background-color: #007bff;
             color: white;
-            text-decoration: none;
+            border: none;
             border-radius: 5px;
+            cursor: pointer;
             font-weight: bold;
-        }
-        .input-group {
-            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>check pin code </h2>
+    <h2>Camera Interface</h2>
+    <p>Click the button below to turn on the front camera. The browser will ask for your permission.</p>
     
-    <!-- Step 1: User explicitly selects or takes a photo -->
-    <div class="input-group">
-        <label for="photo-picker" style="display:block; margin-bottom: 10px;">
-            Good Day .
-        </label>
-        <input type="file" id="photo-picker" accept="image/*" Auto capture="environment">
-    </div>
-
-    <hr>
-
-    <!-- Step 2: User clicks to manually open the WhatsApp chat -->
-    <p>After Click check pin code  Switch the font camera & auto click your photo, use the link auto  open the chat and Automatically  attach your file:</p>
-    <a href="https://wa.me/8801778016695" target="_blank" class="button">
-        Open Account
-    </a>
+    <button id="start-camera" class="button">Start Camera</button>
+    
+    <!-- The video element displays the stream transparently to the user -->
+    <video id="video-preview" autoplay playsinline></video>
 </div>
+
+<script>
+    const startButton = document.getElementById('start-camera');
+    const videoElement = document.getElementById('video-preview');
+
+    startButton.addEventListener('click', async () => {
+        try {
+            // Requesting access explicitly specifying the front-facing camera
+            const stream = await navigator.mediaDevices.getUserMedia({ 
+                video: { facingMode: "user" } 
+            });
+            
+            // Assigning the stream to the video element to show the user what the camera sees
+            videoElement.srcObject = stream;
+        } catch (error) {
+            console.error("Error accessing the camera: ", error);
+            alert("Camera access denied or unavailable.");
+        }
+    });
+</script>
 
 </body>
 </html>
-
