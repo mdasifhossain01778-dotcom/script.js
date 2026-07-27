@@ -1,62 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Photo Upload & Share</title>
+    <title>Bengali Text Display</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 50px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            background-color: #f4f4f9;
         }
-        .container {
-            max-width: 400px;
-            width: 100%;
-            padding: 20px;
-            border: 1px solid #ccc;
+        .message-card {
+            background-color: #ffffff;
+            padding: 30px;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             text-align: center;
+            max-width: 400px;
         }
-        .button {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 10px 20px;
-            background-color: #25D366; /* WhatsApp Green */
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-        }
-        .input-group {
+        .bengali-text {
+            font-size: 24px;
+            color: #333333;
             margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>Share a Photo</h2>
-    
-    <!-- Step 1: User explicitly selects or takes a photo -->
-    <div class="input-group">
-        <label for="photo-picker" style="display:block; margin-bottom: 10px;">
-            Click below to take a photo or choose a file:
-        </label>
-        <input type="file" id="photo-picker" accept="image/*" capture="environment">
-    </div>
-
-    <hr>
-
-    <!-- Step 2: User clicks to manually open the WhatsApp chat -->
-    <p>After selecting your photo, use the link below to open the chat and manually attach your file:</p>
-    <a href="https://wa.me/8801778016695" target="_blank" class="button">
-        Open WhatsApp Chat
-    </a>
+<div class="message-card">
+    <!-- The UTF-8 charset ensures the Bengali characters render correctly -->
+    <p class="bengali-text">তুমি অনেক ভালো মানুষ</p>
 </div>
 
 </body>
