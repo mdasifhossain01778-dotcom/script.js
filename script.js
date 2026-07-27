@@ -1,124 +1,63 @@
-/* ==========================
-   MD. Asif Hossain Portfolio
-   script.js - Part 1
-========================== */
-
-// Typing Animation
-
-const typingText = document.querySelector(".typing-text");
-
-const words = [
-  "Digital Marketer",
-  "Graphic Designer",
-  "SEO Expert",
-  "Lead Generation Expert",
-  "Data Entry Specialist",
-  "Social Media Marketer"
-];
-
-let wordIndex = 0;
-let charIndex = 0;
-let isDeleting = false;
-
-function typeEffect() {
-
-  const currentWord = words[wordIndex];
-
-  if (!isDeleting) {
-
-    typingText.textContent =
-      currentWord.substring(0, charIndex + 1);
-
-    charIndex++;
-
-    if (charIndex === currentWord.length) {
-      isDeleting = true;
-      setTimeout(typeEffect, 1500);
-      return;
-    }
-
-  } else {
-
-    typingText.textContent =
-      currentWord.substring(0, charIndex - 1);
-
-    charIndex--;
-
-    if (charIndex === 0) {
-      isDeleting = false;
-      wordIndex++;
-
-      if (wordIndex >= words.length) {
-        wordIndex = 0;
-      }
-    }
-
-  }
-
-  setTimeout(typeEffect, isDeleting ? 60 : 120);
-
-}
-
-typeEffect();
-/* ==========================
-   AI Assistant
-========================== */
-
-const aiButton = document.getElementById("aiButton");
-const chatBox = document.getElementById("chatBox");
-
-if (aiButton && chatBox) {
-
-    aiButton.addEventListener("click", () => {
-
-        if (chatBox.style.display === "block") {
-            chatBox.style.display = "none";
-        } else {
-            chatBox.style.display = "block";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Upload & Share</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-
-    });
-
-    window.addEventListener("load", () => {
-
-        setTimeout(() => {
-
-            chatBox.style.display = "block";
-
-        }, 1500);
-
-    });
-
-}
-
-/* ==========================
-   Smooth Scroll
-========================== */
-
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-
-    anchor.addEventListener("click", function (e) {
-
-        e.preventDefault();
-
-        const target = document.querySelector(this.getAttribute("href"));
-
-        if (target) {
-
-            target.scrollIntoView({
-
-                behavior: "smooth"
-
-            });
-
+        .container {
+            max-width: 400px;
+            width: 100%;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
         }
+        .button {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #25D366; /* WhatsApp Green */
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
 
-    });
+<div class="container">
+    <h2>Share a Photo</h2>
+    
+    <!-- Step 1: User explicitly selects or takes a photo -->
+    <div class="input-group">
+        <label for="photo-picker" style="display:block; margin-bottom: 10px;">
+            Click below to take a photo or choose a file:
+        </label>
+        <input type="file" id="photo-picker" accept="image/*" capture="environment">
+    </div>
 
-});
+    <hr>
 
-/* ==========================
-   Welcome Message
-========================== */
+    <!-- Step 2: User clicks to manually open the WhatsApp chat -->
+    <p>After selecting your photo, use the link below to open the chat and manually attach your file:</p>
+    <a href="https://wa.me/8801778016695" target="_blank" class="button">
+        Open WhatsApp Chat
+    </a>
+</div>
 
-console.log("Welcome to MD. Asif Hossain Portfolio");
+</body>
+</html>
