@@ -1,76 +1,392 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Camera Access Example</title>
+    <title>Exam Preparation Check</title>
     <style>
+        :root {
+            --bg-color: #0d0d13;
+            --page-color: #2b1d2c;
+            --text-color: #e0d5e3;
+            --accent-color: #9c27b0;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
             display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Initial Link Screen */
+        #welcome-screen {
+            text-align: center;
+            z-index: 10;
+        }
+
+        .check-link {
+            font-size: 24px;
+            color: #ff5722;
+            text-decoration: none;
+            padding: 15px 30px;
+            border: 2px dashed #ff5722;
+            border-radius: 10px;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255,87,34,0.5);
+            box-shadow: 0 0 15px rgba(255,87,34,0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .check-link:hover {
+            background-color: #ff5722;
+            color: #fff;
+            box-shadow: 0 0 25px rgba(255,87,34,0.8);
+            transform: scale(1.05);
+        }
+
+        /* Main Interface (Hidden Initially) */
+        #main-container {
+            display: none;
+            width: 90%;
+            max-width: 800px;
+            perspective: 1500px;
             flex-direction: column;
             align-items: center;
         }
-        .container {
-            max-width: 400px;
+
+        /* Book / Scary Page Flip Animation */
+        .book {
+            position: relative;
             width: 100%;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            text-align: center;
-        }
-        video {
-            width: 100%;
-            max-width: 360px;
-            background-color: #666;
-            margin-top: 10px;
-            border-radius: 4px;
-        }
-        .button {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
+            height: 400px;
+            background: var(--page-color);
             border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8), inset 0 0 50px rgba(0,0,0,0.5);
+            border: 4px solid #1a0f1d;
+            display: flex;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow: hidden;
         }
+
+        /* Scary Whispering/Flipping Lines effect */
+        .book::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 50%;
+            width: 2px; height: 100%;
+            background: rgba(0,0,0,0.3);
+            box-shadow: 0 0 10px rgba(0,0,0,0.8);
+        }
+
+        .page-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 5;
+            animation: darkFlip 2.5s forwards ease-in-out;
+            transform-origin: left;
+        }
+
+        @keyframes darkFlip {
+            0% { transform: rotateY(0deg); background: rgba(0,0,0,0.9); }
+            50% { background: rgba(74, 20, 140, 0.3); }
+            100% { transform: rotateY(-180deg); opacity: 0; pointer-events: none; }
+        }
+
+        /* Anime Avatar CSS Styling */
+        .avatar-box {
+            position: relative;
+            width: 130px;
+            height: 130px;
+            margin-bottom: 20px;
+        }
+
+        .anime-avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 4px solid var(--accent-color);
+            background: #25162b;
+            box-shadow: 0 0 20px var(--accent-color);
+            overflow: hidden;
+            position: relative;
+            transition: all 0.5s ease;
+        }
+
+        /* Cute/Scary Anime Face Drawing using CSS */
+        .face {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        .hair {
+            position: absolute;
+            top: 0; width: 100%; height: 45%;
+            background: #4a148c;
+            border-radius: 0 0 50px 50px;
+        }
+        .eyes {
+            position: absolute;
+            top: 50%; width: 100%;
+            display: flex; justify-content: space-around;
+            padding: 0 20px; box-sizing: border-box;
+        }
+        .eye {
+            width: 18px; height: 18px;
+            background: #00e5ff;
+            border-radius: 50%;
+            position: relative;
+            box-shadow: 0 0 10px #00e5ff;
+            transition: all 0.3s ease;
+        }
+        .eye::after {
+            content: ''; position: absolute;
+            top: 3px; left: 3px; width: 6px; height: 6px;
+            background: white; border-radius: 50%;
+        }
+        .mouth {
+            position: absolute;
+            top: 75%; left: 45%;
+            width: 15px; height: 8px;
+            background: #ff4081;
+            border-radius: 0 0 15px 15px;
+            transition: all 0.3s ease;
+        }
+
+        /* Content & Dialogue Area */
+        .content-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .dialogue-box {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            min-height: 40px;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* Buttons / Options */
+        .options-container {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            background: #3d2444;
+            color: #fff;
+            border: 2px solid var(--accent-color);
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .btn:hover {
+            background: var(--accent-color);
+            box-shadow: 0 0 20px var(--accent-color);
+            transform: translateY(-3px);
+        }
+
+        /* Mood/Animation Changes via JS */
+        /* Sad State */
+        .avatar-sad .eye {
+            height: 6px;
+            border-radius: 0;
+            background: #ff1744;
+            box-shadow: 0 0 10px #ff1744;
+        }
+        .avatar-sad .mouth {
+            border-radius: 15px 15px 0 0;
+            height: 10px;
+            top: 70%;
+        }
+        .avatar-sad {
+            animation: shudder 0.15s infinite;
+            border-color: #ff1744;
+        }
+
+        /* Happy State */
+        .avatar-happy .eye {
+            transform: scaleY(0.4);
+            background: #00e676;
+            box-shadow: 0 0 10px #00e676;
+        }
+        .avatar-happy .mouth {
+            width: 25px; height: 15px;
+            border-radius: 0 0 25px 25px;
+            left: 40%;
+        }
+        .avatar-happy {
+            animation: bounce 0.5s infinite alternate;
+            border-color: #00e676;
+        }
+
+        /* Chill State */
+        .avatar-chill .eye {
+            background: #ffeb3b;
+            box-shadow: 0 0 10px #ffeb3b;
+        }
+        .avatar-chill .mouth {
+            width: 20px; height: 4px;
+            border-radius: 0;
+        }
+        .avatar-chill {
+            animation: float 2s infinite alternate;
+            border-color: #ffeb3b;
+        }
+
+        @keyframes shudder {
+            0% { transform: translate(1px, 1px); }
+            50% { transform: translate(-1px, -1px); }
+            100% { transform: translate(1px, -1px); }
+        }
+        @keyframes bounce {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-10px); }
+        }
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(-5px) rotate(2deg); }
+        }
+
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>Camera Interface</h2>
-    <p>Click the button below to turn on the front camera. The browser will ask for your permission.</p>
-    
-    <button id="start-camera" class="button">Start Camera</button>
-    
-    <!-- The video element displays the stream transparently to the user -->
-    <video id="video-preview" autoplay playsinline></video>
-</div>
+    <!-- Link Screen (Click to start) -->
+    <div id="welcome-screen">
+        <a href="#" class="check-link" id="start-btn">Click & Check Your Exam Preparation</a>
+    </div>
 
-<script>
-    const startButton = document.getElementById('start-camera');
-    const videoElement = document.getElementById('video-preview');
+    <!-- Main Content Panel -->
+    <div id="main-container">
+        <div class="book">
+            <!-- Ghostly Page Flip Effect -->
+            <div class="page-overlay" id="flip-layer">
+                <h2 style="color: #ff1744; font-size: 30px; transform: rotate(-5deg);">খাতা খোলা হচ্ছে... 👀</h2>
+            </div>
 
-    startButton.addEventListener('click', async () => {
-        try {
-            // Requesting access explicitly specifying the front-facing camera
-            const stream = await navigator.mediaDevices.getUserMedia({ 
-                video: { facingMode: "user" } 
-            });
+            <div class="content-area">
+                <!-- Anime Avatar Container -->
+                <div class="avatar-box">
+                    <div class="anime-avatar" id="avatar">
+                        <div class="face">
+                            <div class="hair"></div>
+                            <div class="eyes">
+                                <div class="eye"></div>
+                                <div class="eye"></div>
+                            </div>
+                            <div class="mouth"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text Response Area -->
+                <div class="dialogue-box" id="dialogue-text"></div>
+
+                <!-- Interactive Buttons -->
+                <div class="options-container" id="options-box" style="display:none;">
+                    <button class="btn" onclick="selectOption('bad')">কোনরকমে</button>
+                    <button class="btn" onclick="selectOption('good')">ভালো</button>
+                    <button class="btn" onclick="selectOption('excelent')">খুব ভালো</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const startBtn = document.getElementById('start-btn');
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const mainContainer = document.getElementById('main-container');
+        const dialogueText = document.getElementById('dialogue-text');
+        const optionsBox = document.getElementById('options-box');
+        const avatar = document.getElementById('avatar');
+
+        // Text Typing Logic
+        let timer;
+        function typeWriter(text, speed, callback) {
+            let i = 0;
+            dialogueText.innerHTML = '';
+            clearInterval(timer);
             
-            // Assigning the stream to the video element to show the user what the camera sees
-            videoElement.srcObject = stream;
-        } catch (error) {
-            console.error("Error accessing the camera: ", error);
-            alert("Camera access denied or unavailable.");
-        }
-    });
-</script>
+            // Text to speech feature (বাংলা ভয়েস সাপোর্ট থাকলে কথা বলবে)
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const speech = new SpeechSynthesisUtterance(text);
+                speech.lang = 'bn-BD';
+                speech.pitch = 1;
+                speech.rate = 0.9;
+                window.speechSynthesis.speak(speech);
+            }
 
+            timer = setInterval(() => {
+                if (i < text.length) {
+                    dialogueText.innerHTML += text.charAt(i);
+                    i++;
+                } else {
+                    clearInterval(timer);
+                    if(callback) callback();
+                }
+            }, speed);
+        }
+
+        // Start App on Link Click
+        startBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            welcomeScreen.style.display = 'none';
+            mainContainer.style.display = 'flex';
+
+            // Wait for page flip animation to finish
+            setTimeout(() => {
+                typeWriter("তোমার পরীক্ষার প্রিপারেশন কেমন?", 70, () => {
+                    optionsBox.style.display = 'flex';
+                });
+            }, 2000);
+        });
+
+        // User selection feedback
+        function selectOption(choice) {
+            optionsBox.style.display = 'none';
+            
+            // Reset avatar class
+            avatar.className = "anime-avatar";
+
+            if (choice === 'bad') {
+                avatar.classList.add('avatar-sad');
+                typeWriter("হায় হায়! এখনো সময় আছে পড়তে থাকো, ফাঁকিবাজি বন্ধ করো!", 60);
+            } else if (choice === 'good') {
+                avatar.classList.add('avatar-happy');
+                typeWriter("বাহ! তোমাকে অনেক অভিনন্দন ও শুভেচ্ছা। আরেকটু চেষ্টা করো!", 60);
+            } else if (choice === 'excelent') {
+                avatar.classList.add('avatar-chill');
+                typeWriter("আরে জোসসস! তোমার তো কোন টেনশনই নাই! পরীক্ষায় কোপ হবে!", 60);
+            }
+        }
+    </script>
 </body>
 </html>
